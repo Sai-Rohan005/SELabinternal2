@@ -1,50 +1,24 @@
 pipeline {
     agent any
-    tools {
-        maven 'MAVEN_HOME'
-    }
+
     stages {
-        stage('git repo & clean') {
+        stage('git clone') {
             steps {
-                script {
-                    // Only clean, no need to clone again
-                    bat 'mvn clean'
-                    sh 'mvn clean'
-                }
+               //bat rmi /s /q MavenJavaDemo
+               bat "git clone https://github.com/Sai-Rohan005/SELabinternal2.git"
+               bat "mvn clean -f MavenJavaDemo"
             }
         }
         stage('install') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn install'
-                    } else {
-                        bat 'mvn install'
-                    }
-                }
+               bat "mvn install -f MavenJavaDemo"
             }
         }
-        stage('test') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn test'
-                    } else {
-                        bat 'mvn test'
-                    }
-                }
+        stage('test'){
+            steps{
+                bat "mvn test -f MavenJavaDemo"
             }
-        }
-        stage('package') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn package'
-                    } else {
-                        bat 'mvn package'
-                    }
-                }
-            }
+            
         }
     }
 }
