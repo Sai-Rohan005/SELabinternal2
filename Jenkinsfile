@@ -9,6 +9,7 @@ pipeline {
                 script {
                     // Only clean, no need to clone again
                     bat 'mvn clean'
+                    sh 'mvn clean'
                 }
             }
         }
